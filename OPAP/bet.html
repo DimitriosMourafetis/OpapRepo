@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <title>OPAP | Τοποθέτηση Στοιχήματος</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .category-section { margin-top: 20px; text-align: left; }
+    .odds { padding: 10px; border: 1px solid #ccc; margin-bottom: 10px; }
+    .odds div { margin-bottom: 5px; }
+    .odds span { font-weight: bold; margin-right: 10px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="oap.png" alt="OPAP Logo" class="logo">
+    <h2>Τοποθέτηση Στοιχήματος</h2>
+
+    <label for="sport">Άθλημα:</label>
+    <select id="sport" onchange="showSport()">
+      <option value="">Επιλογή</option>
+      <option value="football">Ποδόσφαιρο</option>
+      <option value="basketball">Μπάσκετ</option>
+      <option value="tennis">Τένις</option>
+    </select>
+
+    <label for="region">Περιοχή:</label>
+    <select id="region" onchange="showMatches()">
+      <option value="">Επιλογή</option>
+      <option value="greece">Ελλάδα</option>
+      <option value="abroad">Εξωτερικό</option>
+    </select>
+
+    <div id="matches" class="category-section hidden"></div>
+
+    <label for="amount">Ποσό Στοιχήματος (€):</label>
+    <input type="number" id="amount" min="0.5" max="10000" step="0.1" placeholder="0.50 - 10000" oninput="calculateCashOut()">
+
+    <p id="selected-bet" class="hidden">Επιλεγμένη Απόδοση: <span id="selected-odds">0</span></p>
+    <p id="cashout" class="hidden">Πιθανό Cash Out: €<span id="cashout-amount">0</span></p>
+
+    <button onclick="placeBet()">Τοποθέτηση</button><br><br>
+    <a href="dashboard.html">Επιστροφή</a>
+  </div>
+
+  <script>
+    const data = {
+      football: {
+        greece: [
+          ["Ολυμπιακός", 2.10, "ΠΑΟΚ", 2.75],
+          ["ΑΕΚ", 2.00, "Παναθηναϊκός", 2.30],
+          ["Άρης", 2.40, "Αστέρας Τρίπολης", 2.90],
+          ["Βόλος", 3.00, "Ιωνικός", 3.20],
+          ["Λαμία", 2.60, "Ατρόμητος", 2.80],
+          ["ΠΑΣ Γιάννινα", 2.75, "Λεβαδειακός", 3.10],
+          ["Κηφισιά", 1.85, "Χανιά", 2.50],
+          ["Καλλιθέα", 2.25, "Παναχαϊκή", 2.65],
+          ["Απόλλων Σμύρνης", 1.90, "Ηρόδοτος", 2.35],
+          ["ΑΕΛ", 2.05, "Τρίκαλα", 2.55]
+        ],
+        abroad: [
+          ["Ρεάλ Μαδρίτης", 1.80, "Μάντσεστερ Σίτι", 2.20],
+          ["Μπαρτσελόνα", 1.95, "Άρσεναλ", 2.45],
+          ["Μπάγερν", 2.10, "Τσέλσι", 2.50],
+          ["Λίβερπουλ", 1.75, "Μίλαν", 2.60],
+          ["Ατλέτικο", 2.15, "Παρί", 2.30],
+          ["Ίντερ", 1.85, "Νάπολι", 2.60],
+          ["Ντόρτμουντ", 2.05, "Μονακό", 2.80],
+          ["Άγιαξ", 2.00, "Λυών", 2.75],
+          ["Σεβίλλη", 1.90, "Ζάλτσμπουργκ", 2.70],
+          ["Λάτσιο", 2.10, "Γαλατάσαραϊ", 2.60]
+        ]
+      },
+      basketball: {
+        greece: [
+          ["Παναθηναϊκός", 1.60, "Ολυμπιακός", 2.10],
+          ["Περιστέρι", 1.85, "ΠΑΟΚ", 2.20],
+          ["ΑΕΚ", 1.90, "Λάρισα", 2.30],
+          ["Ηρακλής", 2.00, "Άρης", 2.40],
+          ["Κολοσσός", 2.15, "Ιωνικός", 2.50],
+          ["Προμηθέας", 1.75, "Καρδίτσα", 2.65],
+          ["Μαρούσι", 2.25, "Τρίκαλα", 2.70],
+          ["Λαύριο", 2.10, "Κομοτηνή", 2.55],
+          ["Μεσολόγγι", 1.95, "Αγρίνιο", 2.60],
+          ["Χανιά", 2.20, "Καβάλα", 2.75]
+        ],
+        abroad: [
+          ["Μπαρτσελόνα", 1.80, "ΤΣΣΚΑ Μόσχας", 2.20],
+          ["Ρεάλ Μαδρίτης", 1.85, "Αρμάνι Μιλάνο", 2.30],
+          ["Φενέρμπαχτσε", 1.90, "Μακάμπι", 2.40],
+          ["Ούνιξ", 2.00, "Ζαλγκίρις", 2.50],
+          ["Αναντολού Εφές", 1.75, "Μπάγερν", 2.60],
+          ["Ολίμπια", 2.10, "Βαλένθια", 2.65],
+          ["Βίρτους", 2.05, "Γαλατάσαραϊ", 2.55],
+          ["Λοκομοτίβ", 2.20, "Μονακό", 2.70],
+          ["Χίμκι", 2.25, "Μπασκόνια", 2.80],
+          ["Μπούρσασπορ", 2.15, "Ναντέρ", 2.75]
+        ]
+      },
+      tennis: {
+        greece: [
+          ["Στέφανος Τσιτσιπάς", 1.55, "Άγγελος Μπρούμας", 2.25],
+          ["Κώστας Φλώρος", 1.90, "Δημήτρης Μήτρου", 2.40],
+          ["Γιάννης Ζερβός", 2.05, "Σταύρος Καράλης", 2.50],
+          ["Πέτρος Μάνος", 1.85, "Νίκος Σταμάτης", 2.30],
+          ["Αλέξανδρος Πέτρου", 2.10, "Κυριάκος Γεωργίου", 2.55],
+          ["Μάριος Παπαδόπουλος", 2.00, "Χρήστος Παναγής", 2.50],
+          ["Δημήτρης Κουρής", 2.25, "Θανάσης Χρόνης", 2.75],
+          ["Ιάσονας Στεφανής", 1.95, "Αχιλλέας Νικολάου", 2.60],
+          ["Χάρης Φωκάς", 2.10, "Ανδρέας Πάνος", 2.50],
+          ["Κώστας Αλεξίου", 2.05, "Σπύρος Τζανέτος", 2.60]
+        ],
+        abroad: [
+          ["Νόβακ Τζόκοβιτς", 1.50, "Ντανίλ Μεντβέντεφ", 2.10],
+          ["Ράφαελ Ναδάλ", 1.60, "Νικ Κύργιος", 2.30],
+          ["Κάρλος Αλκαράθ", 1.70, "Τζανίκ Σίνερ", 2.40],
+          ["Χούμπερτ Χουρκάτς", 2.00, "Τέιλορ Φριτζ", 2.50],
+          ["Φελίξ Οζέρ", 1.85, "Αντρέι Ρούμπλεφ", 2.30],
+          ["Ντιέγκο Σβάρτσμαν", 2.15, "Κάσπερ Ρουντ", 2.55],
+          ["Ματέο Μπερετίνι", 2.05, "Αλεξάντερ Ζβέρεφ", 2.50],
+          ["Μπόρνα Τσόριτς", 2.25, "Κάρεν Κατσάνοφ", 2.70],
+          ["Σταν Βαβρίνκα", 2.10, "Γκαέλ Μονφίς", 2.60],
+          ["Ρομπέρτο Μπαουτίστα", 2.00, "Τζον Ίσνερ", 2.55]
+        ]
+      }
+    };
+
+    function showSport() {
+      document.getElementById("region").value = "";
+      document.getElementById("matches").classList.add("hidden");
+      document.getElementById("matches").innerHTML = "";
+      document.getElementById("selected-bet").classList.add("hidden");
+      document.getElementById("cashout").classList.add("hidden");
+    }
+
+    function showMatches() {
+      const sport = document.getElementById("sport").value;
+      const region = document.getElementById("region").value;
+      const container = document.getElementById("matches");
+      container.innerHTML = "";
+      if (sport && region && data[sport] && data[sport][region]) {
+        const list = data[sport][region];
+        list.forEach(([team1, odds1, team2, odds2]) => {
+          const div = document.createElement("div");
+          div.className = "odds";
+          div.innerHTML = `
+            <div>
+              <span>${team1}</span> (Απόδοση: ${odds1})
+              <button onclick="selectOdds(${odds1})">Επιλογή</button>
+            </div>
+            <div>
+              <span>${team2}</span> (Απόδοση: ${odds2})
+              <button onclick="selectOdds(${odds2})">Επιλογή</button>
+            </div>
+          `;
+          container.appendChild(div);
+        });
+        container.classList.remove("hidden");
+      }
+    }
+
+    let selectedOdds = 0;
+    function selectOdds(odds) {
+      selectedOdds = odds;
+      document.getElementById("selected-odds").textContent = odds;
+      document.getElementById("selected-bet").classList.remove("hidden");
+      calculateCashOut();
+    }
+
+    function calculateCashOut() {
+      const amount = parseFloat(document.getElementById("amount").value);
+      if (!selectedOdds || isNaN(amount) || amount < 0.5 || amount > 10000) {
+        document.getElementById("cashout").classList.add("hidden");
+        return;
+      }
+      const cashOut = (amount * selectedOdds).toFixed(2);
+      document.getElementById("cashout-amount").textContent = cashOut;
+      document.getElementById("cashout").classList.remove("hidden");
+    }
+
+    function placeBet() {
+      if (!selectedOdds) {
+        alert("Παρακαλώ επιλέξτε ομάδα.");
+        return;
+      }
+      alert("Το στοίχημα τοποθετήθηκε με επιτυχία!");
+      window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>
