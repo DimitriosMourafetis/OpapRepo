@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPAP Έλεγχος Δελτίου</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="OPAP Logo" class="logo">
+    <h1>Έλεγχος Δελτίου</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Εγγραφή</a></li>
+        <li><a href="login.html">Σύνδεση</a></li>
+        <li><a href="submit-bet.html">Καταχώρηση Δελτίου</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <form>
+      <label>Από<input type="date" name="fromDate"></label>
+      <label>Έως<input type="date" name="toDate"></label>
+      <button type="submit">Έλεγχος Αποτελεσμάτων</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>Ημερομηνία</th><th>Παιχνίδι</th><th>Αριθμοί</th><th>Κατάσταση</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>06/04/2024</td><td>KINO</td><td>3, 7, 12, 20, 25</td><td class="win">Κερδισμένο</td></tr>
+        <tr><td>05/04/2024</td><td>ΤΖΟΚΕΡ</td><td>9, 11, 22, 27, 38 +1</td><td class="lose">Χαμένο</td></tr>
+        <tr><td>03/04/2024</td><td>Πάμε Στοίχημα</td><td>–</td><td class="win">Κερδισμένο</td></tr>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPAP Καταχώρηση Δελτίου</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="OPAP Logo" class="logo">
+    <h1>Καταχώρηση Δελτίου Στοιχήματος</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Εγγραφή</a></li>
+        <li><a href="login.html">Σύνδεση</a></li>
+        <li><a href="check-ticket.html">Έλεγχος Δελτίου</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <form>
+      <label>Είδος στοιχήματος:
+        <select name="gameType">
+          <option value="">-- Επιλέξτε --</option>
+          <option>KINO</option>
+          <option>ΤΖΟΚΕΡ</option>
+          <option>Πάμε Στοίχημα</option>
+          <option>ΛΟΤΤΟ</option>
+        </select>
+      </label>
+      <label>Κλήρωση<input type="text" name="drawNumber" value="112329" required></label>
+      <label>Αριθμοί / Επιλογές<input type="text" name="numbers" placeholder="π.χ. 5,12,19,25,36"></label>
+      <label>Συνεχόμενες κληρώσεις<input type="number" name="consecutiveDraws" min="1" placeholder="π.χ. 3"></label>
+      <button type="submit">Καταχώρηση</button>
+    </form>
+  </main>
+</body>
+</html>

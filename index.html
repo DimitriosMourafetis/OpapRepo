@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPAP Εγγραφή Χρήστη</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="OPAP Logo" class="logo">
+    <h1>Εγγραφή Χρήστη</h1>
+    <nav>
+      <ul>
+        <li><a href="login.html">Σύνδεση</a></li>
+        <li><a href="submit-bet.html">Καταχώρηση Δελτίου</a></li>
+        <li><a href="check-ticket.html">Έλεγχος Δελτίου</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <form>
+      <label>Όνομα<input type="text" name="firstName" required></label>
+      <label>Επώνυμο<input type="text" name="lastName" required></label>
+      <label>Ημερομηνία Γέννησης<input type="date" name="birthDate" required></label>
+      <label>Email<input type="email" name="email" required></label>
+      <label>Ταυτότητα ή Διαβατήριο<input type="file" name="idDoc" accept="image/*,.pdf" required></label>
+      <label>Selfie<input type="file" name="selfie" accept="image/*" required></label>
+      <label>Κωδικός<input type="password" name="password" required></label>
+      <label>Επιβεβαίωση Κωδικού<input type="password" name="confirmPassword" required></label>
+      <label><input type="checkbox" required> Αποδέχομαι τους όρους χρήσης</label>
+      <button type="submit">Υποβολή</button>
+    </form>
+  </main>
+</body>
+</html>

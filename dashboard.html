@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OPAP Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="OPAP Logo" class="logo">
+    <h1>Στατιστικά Καταστήματος</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Εγγραφή</a></li>
+        <li><a href="login.html">Σύνδεση</a></li>
+        <li><a href="submit-bet.html">Καταχώρηση Δελτίου</a></li>
+        <li><a href="check-ticket.html">Έλεγχος Δελτίου</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="filters">
+      <label>Επιλογή παιχνιδιού:
+        <select>
+          <option value="all">Όλα</option>
+          <option>KINO</option>
+          <option>ΤΖΟΚΕΡ</option>
+          <option>Πάμε Στοίχημα</option>
+          <option>ΛΟΤΤΟ</option>
+        </select>
+      </label>
+      <label>Περίοδος:
+        <select>
+          <option>Ημέρα</option>
+          <option>Εβδομάδα</option>
+          <option>Μήνας</option>
+        </select>
+      </label>
+    </section>
+    <section class="cards">
+      <div class="card"><h2>Έσοδα</h2><p>€ 2.530</p></div>
+      <div class="card"><h2>Παίκτες</h2><p>1.200</p></div>
+      <div class="card"><h2>Πτώση Πωλήσεων KINO</h2><p>Σήμερα</p></div>
+    </section>
+    <section class="charts">
+      <div class="chart" id="barChart">
+        <h3>Δελτία ανά παιχνίδι</h3>
+        <!-- placeholder για γράφημα -->
+      </div>
+    </section>
+  </main>
+</body>
+</html>
